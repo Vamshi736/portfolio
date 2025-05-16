@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Calculator</title>
+  <style>
+    body {
+      text-align: center;
+      margin-top: 50px;
+      font-family: Arial;
+    }
+
+    .calculator {
+      display: inline-block;
+      border: 4px solid #7328a9;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    #display {
+      width: 92%;
+      height:50px;
+      font-size: 24px;
+      margin-bottom: 10px;
+      padding: 0px;
+      text-align: right;
+      border: 3px solid #7328a9;
+    }
+
+    .btn {
+      width: 60px;
+      height: 60px;
+      font-size: 22px;
+      margin: 5px;
+      border:2px solid #7328a9
+
+    }
+
+    .row {
+      display: flex;
+      justify-content: center;
+    }
+    h1{
+        color: #3128a9;
+        font-size: 35px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Simple Calculator</h1>
+  <div class="calculator">
+    <input type="text" id="display" disabled>
+
+    <div class="row">
+      <button class="btn" onclick="press('7')">7</button>
+      <button class="btn" onclick="press('8')">8</button>
+      <button class="btn" onclick="press('9')">9</button>
+      <button class="btn" onclick="press('/')">/</button>
+    </div>
+    <div class="row">
+      <button class="btn" onclick="press('4')">4</button>
+      <button class="btn" onclick="press('5')">5</button>
+      <button class="btn" onclick="press('6')">6</button>
+      <button class="btn" onclick="press('*')">x</button>
+    </div>
+    <div class="row">
+      <button class="btn" onclick="press('1')">1</button>
+      <button class="btn" onclick="press('2')">2</button>
+      <button class="btn" onclick="press('3')">3</button>
+      <button class="btn" onclick="press('-')">-</button>
+    </div>
+    <div class="row">
+      <button class="btn" onclick="press('0')">0</button>
+      <button class="btn" onclick="press('.')">.</button>
+      <button class="btn" onclick="calculate()">=</button>
+      <button class="btn" onclick="press('+')">+</button>
+    </div>
+    <div class="row">
+      <button class="btn" style="width: 270px;" onclick="clearDisplay()">CLEAR</button>
+    </div>
+  </div>
+
+  <script>
+    function press(val) {
+      document.getElementById('display').value += val;
+    }
+
+    function calculate() {
+      try {
+        document.getElementById('display').value = eval(document.getElementById('display').value);
+      } catch (e) {
+        document.getElementById('display').value = 'Error';
+      }
+    }
+
+    function clearDisplay() {
+      document.getElementById('display').value = '';
+    }
+  </script>
+
+</body>
+</html>

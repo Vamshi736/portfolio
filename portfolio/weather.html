@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { 
+            font-family: Arial, sans-serif;
+            background: #e0f7fa; 
+            margin: 0; padding: 0; 
+        }
+        .container { 
+            max-width: 400px; 
+            margin: 40px auto; 
+            background: #fff; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
+            padding: 24px; 
+        }
+        h1 { 
+            text-align: center; 
+            color: #00796b; 
+        }
+        .weather-info { margin-top: 20px; }
+        .label { font-weight: bold; }
+        input[type="text"] { 
+                width: 100%; 
+                padding: 8px; 
+                border-radius: 4px; 
+                border: 1px solid #b2dfdb; 
+            }
+        button { padding: 8px 16px; 
+                background: #00796b; 
+                color: #fff; 
+                border: none; 
+                border-radius: 4px; 
+                cursor: pointer; 
+                margin-top: 10px;
+            }
+        button:hover { 
+            background: #004d40; 
+        }
+        .error { 
+            color: #d32f2f;
+            margin-top: 10px; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Weather App</h1>
+        <form id="weatherForm">
+            <input type="text" id="cityInput" placeholder="Enter city name" required>
+            <button type="submit">Get Weather</button>
+        </form>
+        <div class="weather-info" id="weatherInfo"></div>
+        <div class="error" id="errorMsg"></div>
+    </div>
+    <script>
+        const apiKey = '9a170deb78dd841e008b2b6adf32ca7a'; 
+
+        document.getElementById('weatherForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const city = document.getElementById('cityInput').value.trim();
+            if (!city) return;
+            document.getElementById('weatherInfo').innerHTML = '';
+            document.getElementById('errorMsg').textContent = '';
+            fetchWeather(city);
+        });
+
+        function fetchWeather(city) {
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`)
+                .then(response => {
+                    if (!response.ok) throw new Error('City not found');
+                    return response.json();
+                })
+                .then(data => {
+                    const temp = data.main.temp;
+                    const humidity = data.main.humidity;
+                    const wind = data.wind.speed;
+                    document.getElementById('weatherInfo').innerHTML = `
+                        <p><span class="label">Temperature:</span> ${temp} &deg;C</p>
+                        <p><span class="label">Humidity:</span> ${humidity} %</p>
+                        <p><span class="label">Wind Speed:</span> ${wind} m/s</p>
+                    `;
+                })
+                .catch(err => {
+                    document.getElementById('errorMsg').textContent = err.message;
+                });
+        }
+    </script>
+</body>
+</html>
